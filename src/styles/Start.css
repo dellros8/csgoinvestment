@@ -1,0 +1,25 @@
+.csgoinve-flex {
+    display: flex;
+}
+
+.csgoinve-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.skinCol {
+    width: 350px;
+    flex-direction: column;
+}
+
+.skinRow {
+    max-width: 1400px;
+}
+
+.colorBlue {
+    color: blue;
+}
+
+.colorRed {
+    color: red;
+}

@@ -12,11 +12,11 @@ export const mySkins = [
         boughtFor: 3600,
     },
     {
-        name: STATTRAK + 'M4A1-S | Cyrex (Factory New)',
+        name: 'M4A1-S | Icarus Fell (Factory New)',
         boughtFor: 700,
     },
     {
-        name: STATTRAK + 'Bayonet | Doppler (Minimal Wear)',
-        boughtFor: 700,
-    },
+        name: STATTRAK + 'Glock-18 | Dragon Tattoo',
+        boughtFor: 540,
+    }
 ]
