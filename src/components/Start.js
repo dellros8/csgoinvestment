@@ -9,17 +9,8 @@ class Start extends Component {
     super(props)
     this.state = {
       mySkins: mySkins,
-      percentage: "0.70"
+      percentage: "0.7",
     }
-  }
-
-
-
-  UNSAFE_componentWillMount() {
-  }
-
-  componentDidMount() {
-    this.getMySkinsPrices()
   }
 
   getMySkinsPrices = () => {
@@ -27,7 +18,7 @@ class Start extends Component {
       let FULL_SKIN_URL = `${this.isKnife(skin.name) ? KNIFE : ''}${skin.name}`
 
       this.fetchSkinPrice(FULL_SKIN_URL, index);
-      
+
     })
   }
 
@@ -40,44 +31,89 @@ class Start extends Component {
   }
 
   isKnife = (skin) => {
-    if (skin.includes('Bayonet', 'Flip Knife', 'Gut Knife')) {
+    if (skin.includes('Bayonet', 'Knife', 'Karambit')) {
       return true
     } else {
       return false
     }
   }
 
+  splitDecimalsAndReturnString = (integer) => {
+    return integer.toString().split('.')[0]
+  }
+
+  parsePercentage = () => {
+    return parseFloat(this.state.percentage)
+  }
+
+  parseMarketValue = (mvalue) => {
+    let mvalue1 = mvalue.split(',')[0];
+    let mvalue2 = mvalue1.split('.').join('');
+    let mvalue3 = parseInt(mvalue2, 10)
+
+    return mvalue3
+  }
+
+  calculatePercentageValue = (mvalue) => {
+    let parsedMarketValue = this.parseMarketValue(mvalue);
+    let parsedPercentage = this.parsePercentage();
+
+    return parsedMarketValue * parsedPercentage
+  }
+
+  calculateDifference = (boughtfor, mvalue) => {
+    let calculatedPercentageValue = this.calculatePercentageValue(mvalue)
+    let boughtFor = boughtfor
+    let diff = calculatedPercentageValue - boughtFor
+
+    return diff
+  }
+
   fetchSkinPrice = (fullSkinName, index) => {
-
-    // request(`http://steamcommunity.com/market/priceoverview/?appid=730&currency=9&market_hash_name=${fullSkinName}`, function (error, response, body) {
-    //   let data = JSON.parse(body);
-
-    //   if (error) {
-    //     console.log('error:', error)
-    //   }
-    // })
     fetch(`http://steamcommunity.com/market/priceoverview/?appid=730&currency=9&market_hash_name=${fullSkinName}`)
       .then((response) => response.json())
       .then(data => {
         let newState = this.state.mySkins;
         newState[index].marketvalue = data.lowest_price;
         this.setState({
-          mySkins: newState
+          mySkins: newState,
         })
       })
   }
 
 
   render() {
-    // this.findSkin()
 
     return (
       <div className="start">
+        <button onClick={() => this.getMySkinsPrices()}>fetch skins</button>
+        
+        <div className="skinRow csgoinve-flex">
+                    <div className="skinCol csgoinve-flex-center">
+                        <div>name</div>
+                    </div>
+                    <div className="skinCol csgoinve-flex-center">
+                        <div>bought for</div>
+                    </div>
+                    <div className="skinCol csgoinve-flex-center">
+                        <div>Difference</div>
+                    </div>
+                    <div className="skinCol csgoinve-flex-center">
+                        <div className="csgoinve-flex csgoinve-flex-center">
+                            <div>Market Value</div>
+                            <select onChange={(e) => this.setState({ percentage: e.target.value })}>
+                                <option value="0.65">65%</option>
+                                <option selected value="0.70">70%</option>
+                                <option value="1.00">100%</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
         {
           this.state.mySkins.map((skin, index) => {
-            
+
             return (
-              <Skinrow skin={skin} key={index} />
+              <Skinrow skin={skin} key={index} difference={skin.marketvalue ? this.splitDecimalsAndReturnString(this.calculateDifference(skin.boughtFor, skin.marketvalue)) : undefined} percentagevalue={skin.marketvalue ? this.splitDecimalsAndReturnString(this.calculatePercentageValue(skin.marketvalue)) : null} />
             )
           })
         }

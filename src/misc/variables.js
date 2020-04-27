@@ -16,7 +16,27 @@ export const mySkins = [
         boughtFor: 700,
     },
     {
-        name: STATTRAK + 'Glock-18 | Dragon Tattoo',
-        boughtFor: 540,
-    }
+        name: STATTRAK + 'Glock-18 | Dragon Tattoo (Factory New)',
+        boughtFor: 461,
+    },
+    {
+        name: 'AWP | Lightning Strike (Factory New)',
+        boughtFor: 1125,
+    },
+    {
+        name: 'AK-47 | Jet Set (Field-Tested)',
+        boughtFor: 650,
+    },
+    {
+        name: STATTRAK + 'USP-S | Dark Water (Minimal Wear)',
+        boughtFor: 304,
+    },
+    {
+        name: 'Desert Eagle | Hypnotic (Factory New)',
+        boughtFor: 350,
+    },
+    {
+        name: STATTRAK + 'M4A1-S | Dark Water (Minimal Wear)',
+        boughtFor: 340,
+    },
 ]
